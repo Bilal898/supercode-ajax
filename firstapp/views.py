@@ -3,7 +3,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 
-from .models import Students, Teachers
+from .models import Students, Teachers, Courses, StudentSubjects, Subjects
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -16,9 +20,11 @@ def IndexPageController(request):
 def HtmlPageController(request):
     return render(request, "htmlpage.html")
 
+@login_required(login_url="/login_user/")
 def addData(request):
     return render(request, "add_data.html")
 
+@login_required(login_url="/login_user/")
 def add_student(request):
     if request.method !='POST':
         return HttpResponse("<h3>method not allowed</h3>")
@@ -34,7 +40,7 @@ def add_student(request):
         except:
             messages.error(request, "Failed to add student")
     return HttpResponseRedirect("/addData")
-
+@login_required(login_url="/login_user/")
 def show_all_data(request):
     all_teachers = Teachers.objects.all()
     all_students = Students.objects.all()
@@ -44,6 +50,7 @@ def show_all_data(request):
     }
     return render(request, 'show_data.html', context)
     
+@login_required(login_url="/login_user/")    
 def delete_student(request, student_id):
     student = Students.objects.get(id=student_id)
     if student == None:
@@ -63,6 +70,7 @@ def update_student(request, student_id):
         }
         return render(request, 'student_edit.html', context)
 
+@login_required(login_url="/login_user/")
 def edit_student(request):
     if request.method !='POST':
         return HttpResponse("<h3>method not allowed</h3>")
@@ -91,3 +99,54 @@ def edit_student(request):
         messages.success(request, "updated successfully")
         return HttpResponseRedirect("update_student/"+str(student.id)+"")
         # profile_image=profile_img)
+def LoginUser(request):
+    if request.user==None or request.user =="" or request.user.username=="":
+        return render(request,"login_page.html")
+    else:
+        return HttpResponseRedirect("/homePage")
+
+def RegisterUser(request):
+    # if request.user==None:
+        return render(request,"register_page.html")
+    # else:
+    #     return HttpResponseRedirect("/homePage")
+
+def SaveUser(request):
+    if request.method!="POST":
+        return HttpResponse("<h2>Method Not Allowed</h2>")
+    else:
+        username=request.POST.get('username','')
+        email=request.POST.get('email','')
+        password=request.POST.get('password','')
+
+        if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+            User.objects.create_user(username,email,password)
+            messages.success(request,"User Created Successfully")
+            return HttpResponseRedirect('/register_user')
+        else:
+            messages.error(request,"Email or Username Already Exist")
+            return HttpResponseRedirect('/register_user')
+
+def DoLoginUser(request):
+    if request.method!="POST":
+        return HttpResponse("<h2>Method Not Allowed")
+    else:
+        username=request.POST.get('username','')
+        password=request.POST.get('password','')
+        user=authenticate(username=username,password=password)
+        login(request,user)
+
+        if user!=None:
+            return HttpResponseRedirect('/homePage')
+        else:
+            messages.error(request,"Invalid Login Details")
+            return HttpResponseRedirect('/login_user')
+
+@login_required(login_url="/login_user/")
+def HomePage(request):
+    return render(request,"home_page.html")
+
+def LogoutUser(request):
+    logout(request)
+    request.user=None
+    return HttpResponseRedirect("/login_user")
