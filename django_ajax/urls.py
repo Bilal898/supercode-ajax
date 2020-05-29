@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from firstapp import views
+from firstapp import views, apiViews
 from django.conf.urls.static import static
 from django_ajax import settings
 
@@ -47,6 +47,10 @@ urlpatterns = [
     path('homePage/',views.HomePage,name="homepage"),
 
     path('logout/',views.LogoutUser,name="logout"),
+
+    path('testStudent', views.testStudent, name='test_student'),
+
+    path('getSubjects', apiViews.getSubjects, name="getSubjects")
 
 
 

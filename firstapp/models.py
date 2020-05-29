@@ -40,7 +40,7 @@ class Students(models.Model):
     roll_no=models.CharField(max_length=255)
     bio=models.TextField()
     profile_image=models.FileField()
-    # course=models.ForeignKey(Courses,on_delete=models.CASCADE)
+    course=models.ForeignKey(Courses,on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
     is_active=models.BooleanField(default=True)
     objects=models.Manager()
