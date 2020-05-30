@@ -70,7 +70,7 @@ urlpatterns = [
 
     path('getpdfPage', views.getPdfPage, name='getpdfpage'),
 
-    # path('savestudent', apiViews.savestudent, name='savestudent'),
+    path('savestudent', apiViews.savestudent, name='savestudent'),
 
     # path('chat/',include('simpleFirstApp.urls'))
 
