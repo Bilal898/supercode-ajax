@@ -24,10 +24,10 @@ SECRET_KEY = 'p(o5!89%6ez263l&u)u+x7+9rn!f9pw$^k96d@n3vipgg%!l7u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-MEDIA_URL='/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
-STATIC_ROOT=os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 ALLOWED_HOSTS = []
 
@@ -129,3 +129,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 # STATIC_URL = '/static/'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bfhamid@gmail.com'
+EMAIL_HOST_PASSWORD = 'longhorn_pk1'
+EMAIL_USER_TLS = True
