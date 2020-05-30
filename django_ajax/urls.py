@@ -62,6 +62,18 @@ urlpatterns = [
     path('send_mail_plain_with_file',
          views.send_mail_plain_with_file, name='plain_email'),
 
+    path('set_session', views.setSession, name='set_session'),
+
+    path('view_session', views.view_session, name='view_session'),
+
+    path('del_session', views.del_session, name='del_session'),
+
+    path('getpdfPage', views.getPdfPage, name='getpdfpage'),
+
+    # path('savestudent', apiViews.savestudent, name='savestudent'),
+
+    # path('chat/',include('simpleFirstApp.urls'))
+
 
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
